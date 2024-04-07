@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from aiogram.types import ReplyKeyboardRemove as remove_keyboard
 
-from callback_factories.genre import SelectGenreCallbackFactory
+from utils.callback_factories.genres import SelectGenreCallbackFactory
 from data.context import MenuKeyboard
 from DatabaseAPI.commands import BooksAPI, GenresAPI
 from keyboards.inline.genres import GenresInlineKeyboards
