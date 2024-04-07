@@ -8,6 +8,3 @@ class MenuKeyboard:
 
     adjust = [2]
 
-
-class BookInfo:
-    text = f""
