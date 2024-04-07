@@ -7,7 +7,3 @@ class MenuKeyboard:
     add_custom = "➕ Добавить свой"
 
     adjust = [2]
-
-
-class BookInfo:
-    text = f""
