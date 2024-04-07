@@ -27,7 +27,7 @@ url = URL.create(
     database=config.DataBase.NAME,
 )
 
-engine: AsyncEngine = create_async_engine(url=url, echo=True)
+engine: AsyncEngine = create_async_engine(url=url)
 
 
 async def create_base() -> None:
