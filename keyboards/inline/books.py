@@ -21,7 +21,9 @@ class BooksInlineKeyboards:
 
         for book in books:
             builder.button(
-                text=f"{book.Name} • {book.Author}",
+                text=MenuKeyboard.book_info_format.format(
+                    name=book.Name, author=book.Author
+                ),
                 callback_data=SelectBookCallbackFactory(BookId=book.Id, back=back),
             )
         builder.adjust(*get_paginate_rows(data=books, height=2))
