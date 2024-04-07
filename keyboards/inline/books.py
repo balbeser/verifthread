@@ -2,6 +2,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from DatabaseAPI.models import Book
+from data.context import MenuKeyboard
 from data.default_values import BookSearchTypes
 from utils.callback_factories.books import (
     SelectBookCallbackFactory,
@@ -31,11 +32,12 @@ class BooksInlineKeyboards:
         builder = InlineKeyboardBuilder()
 
         builder.button(
-            text="🗑 Удалить", callback_data=DeleteBookCallbackFactory(BookId=book_id)
+            text=MenuKeyboard.remove,
+            callback_data=DeleteBookCallbackFactory(BookId=book_id),
         )
         if back:
             builder.add(
-                InlineKeyboardButton(text="⬅️ Назад", callback_data="list_books")
+                InlineKeyboardButton(text=MenuKeyboard.back, callback_data="list_books")
             )
 
         builder.adjust(1)
@@ -45,7 +47,9 @@ class BooksInlineKeyboards:
     def back_books_list_keyboard() -> InlineKeyboardMarkup:
         builder = InlineKeyboardBuilder()
 
-        builder.add(InlineKeyboardButton(text="⬅️ Назад", callback_data="list_books"))
+        builder.add(
+            InlineKeyboardButton(text=MenuKeyboard.back, callback_data="list_books")
+        )
         return builder.as_markup()
 
     @staticmethod

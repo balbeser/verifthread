@@ -2,6 +2,7 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from DatabaseAPI.models import Genre
+from data.context import MenuKeyboard
 from utils.callback_factories.genres import (
     SelectGenreCallbackFactory,
     SelectGenreSearchFilterCallbackFactory,
@@ -19,7 +20,7 @@ class GenresInlineKeyboards:
                 text=genre.Name,
                 callback_data=SelectGenreCallbackFactory(GenreId=genre.Id),
             )
-        builder.button(text="➕ Добавить свой", callback_data="add-custom-genre")
+        builder.button(text=MenuKeyboard.add_custom, callback_data="add-custom-genre")
 
         builder.adjust(*get_paginate_rows(data=genres))
         return builder.as_markup()
@@ -33,7 +34,7 @@ class GenresInlineKeyboards:
                 text=genre.Name,
                 callback_data=SelectGenreSearchFilterCallbackFactory(GenreId=genre.Id),
             )
-        builder.button(text="⬅️ Назад", callback_data="search_book")
+        builder.button(text=MenuKeyboard.back, callback_data="search_book")
 
         builder.adjust(*get_paginate_rows(data=genres))
         return builder.as_markup()
