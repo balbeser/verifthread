@@ -1,14 +1,15 @@
 from aiogram import F, Router
+from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from aiogram.types import ReplyKeyboardRemove as remove_keyboard
 
-from utils.callback_factories.genres import SelectGenreCallbackFactory
 from data.context import AddBookExceptions, AddBookText, MenuKeyboard
 from DatabaseAPI.commands import BooksAPI, GenresAPI
 from keyboards.inline.genres import GenresInlineKeyboards
 from keyboards.reply.menu import ReplyMenuKeyboards
 from states import AddBookState
+from utils.callback_factories.genres import SelectGenreCallbackFactory
 from utils.create_book import create_book
 
 router = Router()
@@ -24,7 +25,7 @@ async def enter_book_name(message: Message, state: FSMContext) -> None:
     await state.set_state(AddBookState.name)
 
 
-@router.message(AddBookState.name)
+@router.message(StateFilter(AddBookState.name))
 async def enter_book_author(message: Message, state: FSMContext) -> None:
     name = message.text
     if await BooksAPI.select_book(Name=name):
@@ -39,7 +40,7 @@ async def enter_book_author(message: Message, state: FSMContext) -> None:
     await state.set_state(AddBookState.author)
 
 
-@router.message(AddBookState.author)
+@router.message(StateFilter(AddBookState.author))
 async def enter_book_desc(message: Message, state: FSMContext) -> None:
     await message.answer(AddBookText.enter_book_description)
 
@@ -47,7 +48,7 @@ async def enter_book_desc(message: Message, state: FSMContext) -> None:
     await state.set_state(AddBookState.description)
 
 
-@router.message(AddBookState.description)
+@router.message(StateFilter(AddBookState.description))
 async def enter_book_genre(message: Message, state: FSMContext) -> None:
     genres = await GenresAPI.select_genres()
 
@@ -62,7 +63,9 @@ async def enter_book_genre(message: Message, state: FSMContext) -> None:
     await state.set_state(AddBookState.genre)
 
 
-@router.callback_query(AddBookState.genre, SelectGenreCallbackFactory.filter())
+@router.callback_query(
+    StateFilter(AddBookState.genre), SelectGenreCallbackFactory.filter()
+)
 async def add_book(
     call: CallbackQuery, state: FSMContext, callback_data: SelectGenreCallbackFactory
 ) -> None:

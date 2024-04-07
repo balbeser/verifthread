@@ -1,4 +1,5 @@
 from aiogram import F, Router
+from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
@@ -20,7 +21,7 @@ async def search_type_word_or_phrase(call: CallbackQuery, state: FSMContext) -> 
     await state.set_state(SearchState.keyword)
 
 
-@router.message(SearchState.keyword)
+@router.message(StateFilter(SearchState.keyword))
 async def keyword_search(message: Message, state: FSMContext):
     await state.clear()
 

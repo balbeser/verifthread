@@ -1,13 +1,10 @@
 from aiogram import F, Router
+from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
-from aiogram.types import ReplyKeyboardRemove as remove_keyboard
 
-from utils.callback_factories.genres import SelectGenreCallbackFactory
-from data.context import AddGenreText, MenuKeyboard
-from DatabaseAPI.commands import BooksAPI, GenresAPI
-from keyboards.inline.genres import GenresInlineKeyboards
-from keyboards.reply.menu import ReplyMenuKeyboards
+from data.context import AddGenreText
+from DatabaseAPI.commands import GenresAPI
 from states import AddBookState, AddGenreState
 from utils.create_book import create_book
 
@@ -20,7 +17,7 @@ async def add_book(call: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(AddGenreState.name)
 
 
-@router.message(AddGenreState.name)
+@router.message(StateFilter(AddGenreState.name))
 async def enter_book_genre(message: Message, state: FSMContext) -> None:
     name = message.text
 
